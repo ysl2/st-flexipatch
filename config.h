@@ -163,6 +163,35 @@ float alphaUnfocused = 0.6;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
+    #if DRACULA_THEME_PATCH
+    /* 8 normal colors */
+    [0] = "#000000", /* black   */
+    [1] = "#ff5555", /* red     */
+    [2] = "#50fa7b", /* green   */
+    [3] = "#f1fa8c", /* yellow  */
+    [4] = "#bd93f9", /* blue    */
+    [5] = "#ff79c6", /* magenta */
+    [6] = "#8be9fd", /* cyan    */
+    [7] = "#bbbbbb", /* white   */
+
+    /* 8 bright colors */
+    [8]  = "#44475a", /* black   */
+    [9]  = "#ff5555", /* red     */
+    [10] = "#50fa7b", /* green   */
+    [11] = "#f1fa8c", /* yellow  */
+    [12] = "#bd93f9", /* blue    */
+    [13] = "#ff79c6", /* magenta */
+    [14] = "#8be9fd", /* cyan    */
+    [15] = "#ffffff", /* white   */
+
+    /* special colors */
+    [256] = "#282a36", /* background */
+    [257] = "#f8f8f2", /* foreground */
+
+    /* more colors can be added after 255 to use with DefaultXX */
+	"#cccccc",
+	"#555555",
+    #else
 	/* 8 normal colors */
 	"black",
 	"red3",
@@ -190,6 +219,7 @@ static const char *colorname[] = {
 	"#555555", /* 257 -> rev cursor*/
 	"#000000", /* 258 -> bg */
 	"#e5e5e5", /* 259 -> fg */
+    #endif // DRACULA_THEME_PATCH
 };
 
 
@@ -201,10 +231,19 @@ static const char *colorname[] = {
 unsigned int defaultbg = 0;
 unsigned int bg = 17, bgUnfocused = 16;
 #else
+#if DRACULA_THEME_PATCH
+unsigned int defaultbg = 256;
+#else
 unsigned int defaultbg = 258;
+#endif // DRACULA_THEME_PATCH
 #endif // ALPHA_FOCUS_HIGHLIGHT_PATCH
+#if DRACULA_THEME_PATCH
+unsigned int defaultfg = 257;
+unsigned int defaultcs = 257;
+#else
 unsigned int defaultfg = 259;
 unsigned int defaultcs = 256;
+#endif
 unsigned int defaultrcs = 257;
 
 #if VIM_BROWSE_PATCH
@@ -242,6 +281,15 @@ Glyph style[] = {{' ',ATTR_ITALIC|ATTR_FAINT,15,16}, {' ',ATTR_ITALIC,232,11},
 static unsigned int cursorstyle = 1;
 static Rune stcursor = 0x2603; /* snowman (U+2603) */
 #else
+#if DRACULA_THEME_PATCH
+ /*
+ * Colors used, when the specific fg == defaultfg. So in reverse mode this
+ * will reverse too. Another logic would only make the simple feature too
+ * complex.
+ */
+unsigned int defaultitalic = 7;
+unsigned int defaultunderline = 7;
+#endif // DRACULA_THEME_PATCH
 /*
  * Default shape of cursor
  * 2: Block ("█")

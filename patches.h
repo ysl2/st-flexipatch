@@ -452,3 +452,6 @@
  * Depends on the XRESOURCES_PATCH.
  */
 #define XRESOURCES_RELOAD_PATCH 0
+
+// Self Added
+#define DRACULA_THEME_PATCH 1
